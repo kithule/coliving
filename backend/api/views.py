@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
-from .serializers import UserSerializer, NoteSerializer
+from .serializers import UserSerializer, NoteSerializer, TenantSerializer, ApartmentSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Note
+from .models import Note, Tenant, Apartment
 
 # Create your views here.
 # Need: serializer class, permission classes, query_set
@@ -12,12 +12,12 @@ class NoteListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated] 
 
     def get_queryset(self):
-        user=self.request.user
-        return Note.objects.filter(author=user)
+        apartment=self.request.address
+        return Note.objects.filter(address=apartment)
     
     def perform_create(self, serializer):
         if serializer.is_valid():
-            serializer.save(author=self.request.user)
+            serializer.save(author=self.request.tenant)
         else:
             print(serializer.error)
 
@@ -26,10 +26,24 @@ class NoteDelete(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated] 
 
     def get_queryset(self):
-        user=self.request.user
-        return Note.objects.filter(author=user)
+        tenant=self.request.tenant
+        return Note.objects.filter(author=tenant)
 
-class CreatUserView(generics.CreateAPIView):
+class CreateUserView(generics.CreateAPIView):
     queryset=User.objects.all() #things to serialize(id, pw)
     serializer_class=UserSerializer 
     permission_classes = [AllowAny] #anyone can use the view to create new user
+
+class CreateTenantView(generics.CreateAPIView):
+    queryset=Tenant.objects.all()
+    serializer_class=TenantSerializer 
+    permission_classes = [AllowAny] #anyone can use the view to create new tenant
+
+class JoinorCreateApartment(generics.CreateAPIView):
+    queryset = Tenant.objects.all()
+    serializer_class = TenantSerializer
+    permission_classes=[IsAuthenticated]
+
+
+
+
