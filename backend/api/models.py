@@ -8,12 +8,20 @@ class Apartment(models.Model):
     address = models.CharField(max_length=255)
     doorkey = models.CharField(max_length=25)
 
+
+class Tenant(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.ForeignKey(
+        Apartment, on_delete=models.CASCADE, related_name="tenants"
+    )
+
+
 class Note(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="notes"
+        Tenant, on_delete=models.CASCADE, related_name="notes"
     )  # an user can have many notes, if delete user delete note)
     address = models.ForeignKey(
         Apartment, on_delete=models.CASCADE, related_name="notes"
