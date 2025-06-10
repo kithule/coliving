@@ -5,31 +5,34 @@ from .serializers import UserSerializer, NoteSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Note
 
+
 # Create your views here.
 # Need: serializer class, permission classes, query_set
 class NoteListCreate(generics.ListCreateAPIView):
-    serializer_class=NoteSerializer 
-    permission_classes = [IsAuthenticated] 
+    serializer_class = NoteSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user=self.request.user
+        user = self.request.user
         return Note.objects.filter(author=user)
-    
+
     def perform_create(self, serializer):
         if serializer.is_valid():
             serializer.save(author=self.request.user)
         else:
             print(serializer.error)
 
+
 class NoteDelete(generics.DestroyAPIView):
-    serializer_class  = NoteSerializer
-    permission_classes = [IsAuthenticated] 
+    serializer_class = NoteSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user=self.request.user
+        user = self.request.user
         return Note.objects.filter(author=user)
 
+
 class CreatUserView(generics.CreateAPIView):
-    queryset=User.objects.all() #things to serialize(id, pw)
-    serializer_class=UserSerializer 
-    permission_classes = [AllowAny] #anyone can use the view to create new user
+    queryset = User.objects.all()  # things to serialize(id, pw)
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]  # anyone can use the view to create new user
