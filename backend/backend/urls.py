@@ -17,10 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from api.views import CreateUserView
+from api.views import CreateUserView, CreateTenantView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-# contains all auth urls, dev choice
+# urls in api = api endpoints
+# contains all auth urls of, dev choice
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/user/register/", CreateUserView.as_view(), name="register"),
