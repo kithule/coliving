@@ -20,12 +20,16 @@ class NoteListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        address = self.request.address
+        user = self.request.user
+        tenant = Tenant.objects.get(user=user)
+        address = tenant.address
         return Note.objects.filter(address=address)
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            serializer.save(author=self.request.tenant)
+            user = self.request.user
+            tenant = Tenant.objects.get(user=user)
+            serializer.save(author=tenant, address=tenant.address)
         else:
             print(serializer.error)
 
@@ -35,18 +39,18 @@ class NoteDelete(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        tenant = self.request.tenant
+        user = self.request.user
+        tenant = Tenant.objects.get(user=user)
         return Note.objects.filter(author=tenant)
 
 
 class GetTenantView(generics.RetrieveAPIView):
-    queryset = Tenant.objects.all()
     serializer_class = TenantSerializer
-    permission_class = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        user = self.request.tenant
-        return Tenant.objects.filter(user=user)
+    def get_object(self):
+        user = self.request.user
+        return Tenant.objects.get(user=user)
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -95,8 +99,12 @@ class JoinApartmentView(views.APIView):
                 )
             else:
                 tenant = Tenant.objects.get(user=request.user)
-                tenant.address = address
+                tenant.address = apartment
                 tenant.save()
+                return Response(
+                    {"message": "Joined apartment successfully"},
+                    status=status.HTTP_200_OK,
+                )
 
         except Apartment.DoesNotExist:
             return Response(

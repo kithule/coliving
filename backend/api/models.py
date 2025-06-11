@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class Apartment(models.Model):
     address = models.CharField(max_length=255)
-    doorkey = models.CharField(max_length=25)
+    doorkey = models.CharField(max_length=255)
 
 
 class Tenant(models.Model):
