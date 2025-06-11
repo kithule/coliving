@@ -9,7 +9,7 @@ function Home() {
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    //like ngOnInit? hook that executes the function everytime page state changes
+    //like ngOnInit? hook that executes the function everytime page state changes or deps array changes
     getNotes();
   }, []);
 
