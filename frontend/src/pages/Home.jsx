@@ -49,8 +49,13 @@ function Home() {
     api
       .post("/api/notes/", { content, title })
       .then((res) => {
-        if (res.status === 201) alert("Note created!");
-        else alert("Failed to create note.");
+        if (res.status === 201) {
+          alert("Note created!");
+          setTitle("");
+          setContent("");
+        } else {
+          alert("Failed to create note.");
+        }
         getNotes();
       })
       .catch((error) => alert(error));
