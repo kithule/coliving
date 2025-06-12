@@ -22,14 +22,14 @@ class NoteListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         tenant = Tenant.objects.get(user=user)
-        address = tenant.address
-        return Note.objects.filter(address=address)
+        apartment = tenant.apartment
+        return Note.objects.filter(apartment=apartment)
 
     def perform_create(self, serializer):
         if serializer.is_valid():
             user = self.request.user
             tenant = Tenant.objects.get(user=user)
-            serializer.save(author=tenant, address=tenant.address)
+            serializer.save(author=tenant, apartment=tenant.apartment)
         else:
             print(serializer.error)
 
@@ -66,7 +66,7 @@ class CreateTenantView(generics.CreateAPIView):
     permission_classes = [AllowAny]  # anyone can use the view to create new user
 
 
-# for first time users without address registered, they have to either create an apartment or join an existing one
+# for first time users without apartment registered, they have to either create an apartment or join an existing one
 
 
 class CreateApartmentView(generics.CreateAPIView):
@@ -96,7 +96,7 @@ class JoinApartmentView(views.APIView):
                 )
             else:
                 tenant = Tenant.objects.get(user=request.user)
-                tenant.address = apartment
+                tenant.apartment = apartment
                 tenant.save()
                 return Response(
                     {"message": "Joined apartment successfully"},

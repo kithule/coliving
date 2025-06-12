@@ -23,8 +23,8 @@ class UserSerializer(serializers.ModelSerializer):
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
-        fields = ["id", "title", "content", "created_at", "author", "address"]
-        extra_kwargs = {"author": {"read_only": True}, "address": {"read_only": True}}
+        fields = ["id", "title", "content", "created_at", "author", "apartment"]
+        extra_kwargs = {"author": {"read_only": True}, "apartment": {"read_only": True}}
 
 
 class ApartmentSerializer(serializers.ModelSerializer):
@@ -40,16 +40,16 @@ class ApartmentSerializer(serializers.ModelSerializer):
 
 class TenantSerializer(serializers.ModelSerializer):  # nested serializer
     user = UserSerializer()
-    address = serializers.PrimaryKeyRelatedField(
+    apartment = serializers.PrimaryKeyRelatedField(
         queryset=Apartment.objects.all(), required=False, allow_null=True
     )
 
     class Meta:
         model = Tenant
-        fields = ["id", "user", "address"]
+        fields = ["id", "user", "apartment"]
 
     def create(self, validated_data):
         user_data = validated_data.pop("user")
         user = User.objects.create_user(**user_data)
-        tenant = Tenant.objects.create(user=user, address=None)
+        tenant = Tenant.objects.create(user=user, apartment=None)
         return tenant

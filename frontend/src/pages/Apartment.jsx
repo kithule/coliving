@@ -8,7 +8,7 @@ function Apartment() {
   const [address, setAddress] = useState("");
   const [doorkey, setDoorkey] = useState("");
   const [loading, setLoading] = useState(true);
-  const [needsAddress, setNeedsAddress] = useState(false);
+  const [needsApartment, setNeedsApartment] = useState(false);
   const [mode, setMode] = useState("join"); // 'join' or 'create'
   const navigate = useNavigate();
 
@@ -16,8 +16,8 @@ function Apartment() {
     const fetchTenant = async () => {
       try {
         const res = await api.get("/api/tenant/");
-        if (!res.data?.address) {
-          setNeedsAddress(true);
+        if (!res.data?.apartment) {
+          setNeedsApartment(true);
         } else {
           navigate("/");
         }
@@ -54,7 +54,7 @@ function Apartment() {
 
   if (loading) return <p>Loading...</p>;
 
-  if (!needsAddress) return null;
+  if (!needsApartment) return null;
 
   return (
     <form onSubmit={handleSubmit} className="form-container">

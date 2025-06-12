@@ -11,7 +11,7 @@ class Apartment(models.Model):
 
 class Tenant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    address = models.ForeignKey(
+    apartment = models.ForeignKey(
         Apartment, on_delete=models.CASCADE, related_name="tenants"
     )
 
@@ -23,6 +23,6 @@ class Note(models.Model):
     author = models.ForeignKey(
         Tenant, on_delete=models.CASCADE, related_name="notes"
     )  # an user can have many notes, if delete user delete note)
-    address = models.ForeignKey(
+    apartment = models.ForeignKey(
         Apartment, on_delete=models.CASCADE, related_name="notes"
     )  # an apartment can have many notes
