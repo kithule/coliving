@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import Note from "../components/Note";
 import "../styles/Home.css";
+import LogoutButton from "../components/LogoutButton";
 
 function Home() {
   const [notes, setNotes] = useState([]); // hook that modifies data everytime data changes
@@ -62,7 +63,13 @@ function Home() {
   };
   return (
     <div>
-      <header>Welcome home!</header>
+      <section className="home-header">
+        <section>
+          <header>Welcome home!</header>
+        </section>
+        <LogoutButton />
+      </section>
+
       <p>Check out all the notes your flatmates left!</p>
       <section className="display-notes-section">
         <h2>Test</h2>

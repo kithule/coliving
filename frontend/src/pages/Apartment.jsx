@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import LoadingIndicator from "../components/LoadingIndicator";
+import LogoutButton from "../components/LogoutButton";
 import "../styles/Apartment.css";
 
 function Apartment() {
@@ -87,9 +88,12 @@ function Apartment() {
         required
       />
       {loading && <LoadingIndicator />}
-      <button type="submit" disabled={loading}>
-        {mode === "join" ? "Join" : "Create"}
-      </button>
+      <section className="buttons">
+        <button type="submit" disabled={loading}>
+          {mode === "join" ? "Join" : "Create"}
+        </button>
+        <LogoutButton />
+      </section>
     </form>
   );
 }

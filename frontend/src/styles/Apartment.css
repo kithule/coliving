@@ -42,3 +42,8 @@ form button[type="submit"]:hover {
   background-color:#eb9fd8;
 }
 
+.buttons{
+  display:grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
