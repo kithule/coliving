@@ -33,16 +33,10 @@ class ApartmentSerializer(serializers.ModelSerializer):
         fields = ["id", "address", "doorkey"]
         extra_kwargs = {"doorkey": {"write_only": True}}
 
-    def create(self, validated_data):
-        apartment = Apartment.objects.create(**validated_data)
-        return apartment
-
 
 class TenantSerializer(serializers.ModelSerializer):  # nested serializer
     user = UserSerializer()
-    apartment = serializers.PrimaryKeyRelatedField(
-        queryset=Apartment.objects.all(), required=False, allow_null=True
-    )
+    apartment = ApartmentSerializer(required=False, allow_null=True)
 
     class Meta:
         model = Tenant

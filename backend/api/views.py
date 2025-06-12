@@ -74,6 +74,17 @@ class CreateApartmentView(generics.CreateAPIView):
     serializer_class = ApartmentSerializer
     permission_classes = [IsAuthenticated]
 
+    # Create and automatically join creator to newly created apartment
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            user = self.request.user
+            apartment = serializer.save()
+            tenant = Tenant.objects.get(user=user)
+            tenant.apartment = apartment
+            tenant.save()
+        else:
+            print(serializer.error)
+
 
 class JoinApartmentView(views.APIView):
     permission_classes = [IsAuthenticated]

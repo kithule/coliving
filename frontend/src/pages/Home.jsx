@@ -72,7 +72,6 @@ function Home() {
 
       <p>Check out all the notes your flatmates left!</p>
       <section className="display-notes-section">
-        <h2>Test</h2>
         <section className="notes-grid">
           {notes.map((note) => (
             <Note
