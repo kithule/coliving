@@ -4,12 +4,13 @@
   align-items: center;
   justify-content: center;
   margin: 50px auto;
-  padding: 30px;
+  padding: 50px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 480px;
   font-family: 'Noto Sans', sans-serif;
 }
+
 
 form h1 {
   color: #333;
@@ -27,23 +28,17 @@ form h1 {
   width: 100%;
 }
 
-input:-webkit-autofill {
-  background-color: #f4f1f2 !important;
-  -webkit-box-shadow: 0 0 0px 1000px #f4f1f2 inset !important;
-  -webkit-text-fill-color: #171214 !important;
-  transition: background-color 5000s ease-in-out 0s;
-}
-
-.form-button {
+form button[type="submit"] {
   background-color: #f3d2e2;
   color: #171214;
   border: none;
   border-radius: 9999px;
   font-weight: bold;
   cursor: pointer;
-  padding: 20px 20px;
+  padding: 10px 20px;
 }
 
-.form-button:hover {
+form button[type="submit"]:hover {
   background-color:#eb9fd8;
 }
+

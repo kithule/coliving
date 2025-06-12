@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import LoadingIndicator from "../components/LoadingIndicator";
+import "../styles/Apartment.css";
 
 function Apartment() {
   const [address, setAddress] = useState("");
@@ -56,14 +57,14 @@ function Apartment() {
   if (!needsAddress) return null;
 
   return (
-    <div>
-      <h2>
+    <form onSubmit={handleSubmit} className="form-container">
+      <h1>
         {mode === "join"
           ? "Join an Existing Apartment"
           : "Create a New Apartment"}
-      </h2>
+      </h1>
 
-      <div style={{ marginBottom: "1rem" }}>
+      <div>
         <button onClick={() => setMode("join")} disabled={mode === "join"}>
           Join Apartment
         </button>
@@ -71,31 +72,25 @@ function Apartment() {
           Create Apartment
         </button>
       </div>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Address:</label>
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>{mode === "join" ? "Doorkey:" : "Set a Doorkey:"}</label>
-          <input
-            type="text"
-            value={doorkey}
-            onChange={(e) => setDoorkey(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {mode === "join" ? "Join" : "Create"}
-        </button>
-      </form>
-    </div>
+      <input
+        type="text"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        placeholder="Address"
+        required
+      />
+      <input
+        type="text"
+        value={doorkey}
+        onChange={(e) => setDoorkey(e.target.value)}
+        placeholder="Doorkey"
+        required
+      />
+      {loading && <LoadingIndicator />}
+      <button type="submit" disabled={loading}>
+        {mode === "join" ? "Join" : "Create"}
+      </button>
+    </form>
   );
 }
 

@@ -46,7 +46,7 @@ class TenantSerializer(serializers.ModelSerializer):  # nested serializer
 
     class Meta:
         model = Tenant
-        fields = ["user", "address"]
+        fields = ["id", "user", "address"]
 
     def create(self, validated_data):
         user_data = validated_data.pop("user")

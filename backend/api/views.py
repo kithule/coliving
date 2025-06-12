@@ -62,9 +62,6 @@ class CreateUserView(generics.CreateAPIView):
 
 
 class CreateTenantView(generics.CreateAPIView):
-    queryset = (
-        Tenant.objects.all()
-    )  # return all rows in User table, technically we don't need this but best practices
     serializer_class = TenantSerializer
     permission_classes = [AllowAny]  # anyone can use the view to create new user
 
