@@ -9,4 +9,6 @@ urlpatterns = [
         "apartment/create/", views.CreateApartmentView.as_view(), name="join-apartment"
     ),
     path("apartment/join/", views.JoinApartmentView.as_view(), name="join-apartment"),
+    path("tasks/", views.TaskListCreate.as_view(), name="task-list"),
+
 ]

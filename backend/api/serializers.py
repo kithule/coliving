@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Note, Apartment, Tenant
+from .models import Note, Apartment, Tenant, Task
 from django.contrib.auth.hashers import make_password
 
 
@@ -42,8 +42,26 @@ class TenantSerializer(serializers.ModelSerializer):  # nested serializer
         model = Tenant
         fields = ["id", "user", "apartment"]
 
+    # create() doesn't support nested serializers by default => if they aren't read only, need to write explicit create()
     def create(self, validated_data):
         user_data = validated_data.pop("user")
         user = User.objects.create_user(**user_data)
         tenant = Tenant.objects.create(user=user, apartment=None)
         return tenant
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    assignee = serializers.PrimaryKeyRelatedField(queryset=Tenant.objects.all(),required=False, allow_null=True)
+
+    class Meta:
+        model = Task
+        fields = [
+            "id",
+            "content",
+            "progress",
+            "created_at",
+            "due_at",
+            "assignee",
+            "apartment",
+        ]
+        extra_kwargs = {"apartment": {"read_only": True}}

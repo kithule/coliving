@@ -6,9 +6,10 @@ from .serializers import (
     NoteSerializer,
     TenantSerializer,
     ApartmentSerializer,
+    TaskSerializer,
 )
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Note, Tenant, Apartment
+from .models import Note, Tenant, Apartment, Task
 from rest_framework.response import Response
 
 
@@ -119,3 +120,23 @@ class JoinApartmentView(views.APIView):
                 {"error": "Apartment does not exist"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class TaskListCreate(generics.ListCreateAPIView):
+    # 2 functionalities: get notes and create note
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        tenant = Tenant.objects.get(user=user)
+        apartment = tenant.apartment
+        return Task.objects.filter(apartment=apartment)
+
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            user = self.request.user
+            tenant = Tenant.objects.get(user=user)
+            serializer.save(apartment=tenant.apartment)
+        else:
+            print(serializer.error)
