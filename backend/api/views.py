@@ -52,7 +52,12 @@ class GetTenantView(generics.RetrieveAPIView):
     def get_object(self):
         user = self.request.user
         return Tenant.objects.get(user=user)
+    
 
+class GetTenantByIdView(generics.RetrieveAPIView):
+    queryset=Tenant.objects.all()
+    serializer_class = TenantSerializer
+    permission_classes = [IsAuthenticated]
 
 class CreateUserView(generics.CreateAPIView):
     queryset = (

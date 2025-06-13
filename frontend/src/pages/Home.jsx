@@ -29,7 +29,6 @@ function Home() {
       .then((res) => res.data)
       .then((data) => {
         setNotes(data);
-        console.log(data);
       })
       .catch((err) => alert(err));
   };
@@ -64,9 +63,7 @@ function Home() {
   return (
     <div>
       <section className="home-header">
-        <section>
-          <header>Welcome home!</header>
-        </section>
+        <header>Welcome home!</header>
         <LogoutButton />
       </section>
 

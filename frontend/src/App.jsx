@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
 import Apartment from "./pages/Apartment";
+import NotFound from "./pages/NotFound";
+import Tasks from "./pages/Tasks";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function Logout() {
@@ -33,6 +34,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Apartment />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              <Tasks />
             </ProtectedRoute>
           }
         />
