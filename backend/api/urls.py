@@ -11,5 +11,6 @@ urlpatterns = [
     ),
     path("apartment/join/", views.JoinApartmentView.as_view(), name="join-apartment"),
     path("tasks/", views.TaskListCreate.as_view(), name="task-list"),
+    path("tasks/delete/<int:pk>/", views.TaskDelete.as_view(), name="delete-task"),
 
 ]

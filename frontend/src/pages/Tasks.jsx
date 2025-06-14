@@ -2,72 +2,60 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import "../styles/Tasks.css";
 import LogoutButton from "../components/LogoutButton";
+import "../styles/ContextMenu.css";
 
 function Tasks() {
-  const [tasks, setTasks] = useState([]); // hook that modifies data everytime data changes
-  //   const [content, setContent] = useState("");
-  //   const [title, setTitle] = useState("");
-  const [assignees, setAssignees] = useState("");
+  const [tasks, setTasks] = useState([]);
+  const [assignees, setAssignees] = useState({});
+  const [contextMenu, setContextMenu] = useState(null); // { mouseX, mouseY, taskId }
 
   useEffect(() => {
-    //like ngOnInit? hook that executes the function everytime page state changes or deps array changes
     getTasksWithUsernames();
+  }, []);
+
+  useEffect(() => {
+    const handleClick = () => setContextMenu(null); // close menu on outside click
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
   }, []);
 
   const getTasksWithUsernames = async () => {
     try {
-      const response = await api.get("/api/tasks/");
-      const tasksData = response.data;
-
-      // set of all unique assignee IDs
+      const res = await api.get("/api/tasks/");
+      const tasksData = res.data;
       const assigneeIds = [...new Set(tasksData.map((task) => task.assignee))];
-
-      // dictionary {tenant_id: username}
       const idToUsername = {};
       for (let id of assigneeIds) {
         if (id != null) {
-          const userResponse = await api.get(`/api/tenant/${id}/`);
-          console.log(userResponse);
-          idToUsername[id] = userResponse.data.user.username;
+          const tenantRes = await api.get(`/api/tenant/${id}/`);
+          idToUsername[id] = tenantRes.data.user.username;
         }
       }
       setTasks(tasksData);
       setAssignees(idToUsername);
-    } catch (error) {
-      alert(error);
+    } catch (err) {
+      alert(err);
     }
   };
 
-  //   const deleteTasks = (id) => {
-  //     api
-  //       .delete(`/api/notes/delete/${id}/`)
-  //       .then((res) => {
-  //         if (res.status === 204) alert("Note deleted!");
-  //         else alert("Failed to delete note.");
-  //         getNotes();
-  //       })
-  //       .catch((error) => alert(error));
-  //   };
+  const deleteTask = (id) => {
+    api
+      .delete(`/api/tasks/delete/${id}/`)
+      .then((res) => {
+        if (res.status === 204) {
+          alert("Task deleted!");
+          getTasksWithUsernames();
+        } else {
+          alert("Failed to delete task.");
+        }
+      })
+      .catch((error) => alert(error));
+  };
 
-  //   const createNote = (e) => {
-  //     e.preventDefault();
-  //     api
-  //       .post("/api/notes/", { content, title })
-  //       .then((res) => {
-  //         if (res.status === 201) {
-  //           alert("Note created!");
-  //           setTitle("");
-  //           setContent("");
-  //         } else {
-  //           alert("Failed to create note.");
-  //         }
-  //         getNotes();
-  //       })
-  //       .catch((error) => alert(error));
-  //   };
   const formattedDate = (date) => {
     return new Date(date).toLocaleDateString("en-US");
   };
+
   return (
     <div>
       <section className="task-header">
@@ -76,6 +64,7 @@ function Tasks() {
       </section>
 
       <p>Chores are fun!?</p>
+
       <section className="tasks-table-container">
         <table className="tasks-table">
           <thead>
@@ -89,7 +78,17 @@ function Tasks() {
           </thead>
           <tbody>
             {tasks.map((task) => (
-              <tr key={task.id}>
+              <tr
+                key={task.id}
+                onContextMenu={(e) => {
+                  e.preventDefault(); // prevent browser context menu
+                  setContextMenu({
+                    mouseX: e.clientX,
+                    mouseY: e.clientY,
+                    taskId: task.id,
+                  });
+                }}
+              >
                 <td>{task.content}</td>
                 <td>{formattedDate(task.created_at)}</td>
                 <td>{formattedDate(task.due_at)}</td>
@@ -100,6 +99,27 @@ function Tasks() {
           </tbody>
         </table>
       </section>
+
+      {contextMenu && (
+        // unordered bulleted list
+        <ul
+          className="context-menu"
+          style={{
+            top: contextMenu.mouseY,
+            left: contextMenu.mouseX,
+          }}
+        >
+          {/* list item */}
+          <li
+            onClick={() => {
+              deleteTask(contextMenu.taskId);
+              setContextMenu(null);
+            }}
+          >
+            Delete Task
+          </li>
+        </ul>
+      )}
     </div>
   );
 }

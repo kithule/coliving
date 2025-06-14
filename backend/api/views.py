@@ -53,6 +53,11 @@ class GetTenantView(generics.RetrieveAPIView):
         user = self.request.user
         return Tenant.objects.get(user=user)
     
+class TaskDelete(generics.DestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+    
 
 class GetTenantByIdView(generics.RetrieveAPIView):
     queryset=Tenant.objects.all()
