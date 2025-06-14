@@ -8,8 +8,9 @@ div {
 /* Styles for the header section */
 .home-header{
   display: grid;
-  grid-template-columns: 12fr 1fr;
+  grid-template-columns: 0.5fr 12fr 1fr;
 }
+
 
 header {
   font-weight: bold;

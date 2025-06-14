@@ -3,6 +3,8 @@ import api from "../api";
 import "../styles/Tasks.css";
 import LogoutButton from "../components/LogoutButton";
 import "../styles/ContextMenu.css";
+import { FaPersonPraying } from "react-icons/fa6";
+import { TfiHome } from "react-icons/tfi";
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -59,11 +61,15 @@ function Tasks() {
   return (
     <div>
       <section className="task-header">
+        <TfiHome size={24} />
         <header>Welcome home!</header>
         <LogoutButton />
       </section>
 
-      <p>Chores are fun!?</p>
+      <p>
+        Chores are fun!?
+        <FaPersonPraying size={18} />
+      </p>
 
       <section className="tasks-table-container">
         <table className="tasks-table">

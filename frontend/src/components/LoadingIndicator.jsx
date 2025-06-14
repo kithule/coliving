@@ -1,9 +1,10 @@
 import "../styles/LoadingIndicator.css";
+import catGif from "../assets/rainbow-cat.gif";
 
 const LoadingIndicator = () => {
   return (
     <div className="loading-container">
-      <div className="loader"></div>
+      <img src={catGif} />
     </div>
   );
 };

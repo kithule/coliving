@@ -7,7 +7,7 @@ div {
 /* Styles for the header section */
 .task-header{
   display: grid;
-  grid-template-columns: 12fr 1fr;
+  grid-template-columns: 0.5fr 12fr 1fr;
 }
 
 header {
@@ -27,6 +27,9 @@ header {
   border-collapse: collapse;
 }
 
+.tasks-table thead th{
+  background-color: #f3d2e2;
+}
 .tasks-table th,
 .tasks-table td {
   padding: 12px 16px;

@@ -3,6 +3,7 @@ import api from "../api";
 import Note from "../components/Note";
 import "../styles/Home.css";
 import LogoutButton from "../components/LogoutButton";
+import { TfiHome } from "react-icons/tfi";
 
 function Home() {
   const [notes, setNotes] = useState([]); // hook that modifies data everytime data changes
@@ -63,6 +64,7 @@ function Home() {
   return (
     <div>
       <section className="home-header">
+        <TfiHome size={24} />
         <header>Welcome home!</header>
         <LogoutButton />
       </section>
