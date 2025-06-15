@@ -9,10 +9,12 @@ import { TfiHome } from "react-icons/tfi";
 function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [assignees, setAssignees] = useState({});
+  const [flatmates, setFlatmates] = useState([]);
   const [contextMenu, setContextMenu] = useState(null); // { mouseX, mouseY, taskId }
 
   useEffect(() => {
     getTasksWithUsernames();
+    getFlatmates();
   }, []);
 
   useEffect(() => {
@@ -52,6 +54,46 @@ function Tasks() {
         }
       })
       .catch((error) => alert(error));
+  };
+
+  const matchUsernameToTenantId = (username) => {
+    for (let tenant of flatmates) {
+      if (tenant.user.username === username) {
+        return tenant.id;
+      }
+    }
+  };
+
+  const updateTask = (id, field, updateValue) => {
+    let updatedJson;
+    if (field === "assignee") {
+      updatedJson = { [field]: matchUsernameToTenantId(updateValue) };
+    } else {
+      updatedJson = { [field]: updateValue };
+    }
+    console.log(updatedJson);
+    api
+      .patch(`api/tasks/update/${id}/`, updatedJson)
+      .then((res) => {
+        if (res.status === 200) {
+          alert(`${field} updated!`);
+          getTasksWithUsernames();
+        } else {
+          console.log(res.status);
+          alert(`Failed to update ${field}.`);
+        }
+      })
+      .catch((error) => alert(error));
+  };
+
+  const getFlatmates = () => {
+    api
+      .get("api/tenants/")
+      .then((res) => res.data)
+      .then((data) => {
+        setFlatmates(data);
+      })
+      .catch((err) => alert(err));
   };
 
   const formattedDate = (date) => {
@@ -98,8 +140,37 @@ function Tasks() {
                 <td>{task.content}</td>
                 <td>{formattedDate(task.created_at)}</td>
                 <td>{formattedDate(task.due_at)}</td>
-                <td>{assignees[task.assignee]}</td>
-                <td>{task.progress}</td>
+                <td>
+                  <select
+                    name="assignee"
+                    id="assignee-select"
+                    defaultValue={assignees[task.assignee]}
+                    onChange={(e) =>
+                      // has to pass tenant_id
+                      updateTask(task.id, "assignee", e.target.value)
+                    }
+                  >
+                    {flatmates.map((flatmate) => (
+                      <option key={flatmate.id} value={flatmate.user.username}>
+                        {flatmate.user.username}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                <td>
+                  <select
+                    name="progress"
+                    id="progress-select"
+                    defaultValue={task.progress}
+                    onChange={(e) =>
+                      updateTask(task.id, "progress", e.target.value)
+                    }
+                  >
+                    <option value="TO DO">To Do</option>
+                    <option value="IN PROGRESS">In Progress</option>
+                    <option value="DONE">Done</option>
+                  </select>
+                </td>
               </tr>
             ))}
           </tbody>

@@ -44,6 +44,11 @@ class NoteDelete(generics.DestroyAPIView):
         tenant = Tenant.objects.get(user=user)
         return Note.objects.filter(author=tenant)
 
+class GetTenantByIdView(generics.RetrieveAPIView):
+    queryset=Tenant.objects.all()
+    serializer_class = TenantSerializer
+    permission_classes = [IsAuthenticated]
+
 
 class GetTenantView(generics.RetrieveAPIView):
     serializer_class = TenantSerializer
@@ -53,17 +58,16 @@ class GetTenantView(generics.RetrieveAPIView):
         user = self.request.user
         return Tenant.objects.get(user=user)
     
-class TaskDelete(generics.DestroyAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
-    permission_classes = [IsAuthenticated]
+class GetFlatmatesView(generics.ListAPIView):
+    serializer_class=TenantSerializer
+    permission_classes=[IsAuthenticated]
+
+    def get_queryset(self):
+        user=self.request.user
+        tenant=Tenant.objects.get(user=user)
+        apartment=tenant.apartment
+        return Tenant.objects.filter(apartment=apartment)
     
-
-class GetTenantByIdView(generics.RetrieveAPIView):
-    queryset=Tenant.objects.all()
-    serializer_class = TenantSerializer
-    permission_classes = [IsAuthenticated]
-
 class CreateUserView(generics.CreateAPIView):
     queryset = (
         User.objects.all()
@@ -150,3 +154,13 @@ class TaskListCreate(generics.ListCreateAPIView):
             serializer.save(apartment=tenant.apartment)
         else:
             print(serializer.error)
+
+class TaskDelete(generics.DestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class TaskUpdateView(generics.UpdateAPIView):
+    queryset=Task.objects.all()
+    serializer_class=TaskSerializer

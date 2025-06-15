@@ -44,3 +44,8 @@ header {
   color: #171214;
   font-weight: 600;
 }
+
+select {
+  border: none;
+  color: #836775
+}
