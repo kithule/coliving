@@ -6,7 +6,6 @@ import "../styles/ContextMenu.css";
 import { FaPersonPraying } from "react-icons/fa6";
 import { TfiHome } from "react-icons/tfi";
 import Navbar from "../components/Navbar";
-
 function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [assignees, setAssignees] = useState({});
@@ -197,9 +196,9 @@ function Tasks() {
                       updateTask(task.id, "progress", e.target.value)
                     }
                   >
-                    <option value="TO DO">To Do</option>
-                    <option value="IN PROGRESS">In Progress</option>
-                    <option value="DONE">Done</option>
+                    <option value="TO DO">To Do 🙃</option>
+                    <option value="IN PROGRESS">In Progress 🙂</option>
+                    <option value="DONE">Done 😄</option>
                   </select>
                 </td>
               </tr>
@@ -251,9 +250,9 @@ function Tasks() {
                       setNewTask({ ...newTask, progress: e.target.value })
                     }
                   >
-                    <option value="TO DO">To Do</option>
-                    <option value="IN PROGRESS">In Progress</option>
-                    <option value="DONE">Done</option>
+                    <option value="TO DO">To Do 🙃</option>
+                    <option value="IN PROGRESS">In Progress 🙂</option>
+                    <option value="DONE">Done 😄</option>
                   </select>
                 </td>
                 <td>

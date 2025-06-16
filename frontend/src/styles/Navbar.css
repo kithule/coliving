@@ -12,6 +12,7 @@
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  border-radius: 50px;
 }
 
 .nav-bar a:hover {
@@ -22,5 +23,4 @@
 .nav-bar a.active {
   background-color: #eb9fd8;
   color: #333;
-  border-radius: 50px;
 }
