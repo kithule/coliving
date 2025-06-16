@@ -11,6 +11,13 @@ function Tasks() {
   const [assignees, setAssignees] = useState({});
   const [flatmates, setFlatmates] = useState([]);
   const [contextMenu, setContextMenu] = useState(null); // { mouseX, mouseY, taskId }
+  const [isAdding, setIsAdding] = useState(false);
+  const [newTask, setNewTask] = useState({
+    content: "",
+    due_at: "",
+    assignee: "",
+    progress: "TO DO",
+  });
 
   useEffect(() => {
     getTasksWithUsernames();
@@ -39,6 +46,31 @@ function Tasks() {
       setAssignees(idToUsername);
     } catch (err) {
       alert(err);
+    }
+  };
+
+  const createTask = () => {
+    if (!newTask.content || !newTask.due_at) {
+      alert("Please fill in content and due date.");
+    } else {
+      api
+        .post("api/tasks/", newTask)
+        .then((res) => {
+          if (res.status === 201) {
+            alert("Task created!");
+            setNewTask({
+              content: "",
+              due_at: "",
+              assignee: "",
+              progress: "TO DO",
+            });
+            setIsAdding(false);
+            getTasksWithUsernames();
+          } else {
+            alert("Failed to create task.");
+          }
+        })
+        .catch((err) => alert(err));
     }
   };
 
@@ -71,7 +103,6 @@ function Tasks() {
     } else {
       updatedJson = { [field]: updateValue };
     }
-    console.log(updatedJson);
     api
       .patch(`api/tasks/update/${id}/`, updatedJson)
       .then((res) => {
@@ -79,7 +110,6 @@ function Tasks() {
           alert(`${field} updated!`);
           getTasksWithUsernames();
         } else {
-          console.log(res.status);
           alert(`Failed to update ${field}.`);
         }
       })
@@ -146,7 +176,6 @@ function Tasks() {
                     id="assignee-select"
                     defaultValue={assignees[task.assignee]}
                     onChange={(e) =>
-                      // has to pass tenant_id
                       updateTask(task.id, "assignee", e.target.value)
                     }
                   >
@@ -173,6 +202,74 @@ function Tasks() {
                 </td>
               </tr>
             ))}
+            {isAdding ? (
+              <tr className="create-task-row">
+                <td>
+                  <input
+                    type="text"
+                    value={newTask.content}
+                    onChange={(e) =>
+                      setNewTask({ ...newTask, content: e.target.value })
+                    }
+                    placeholder="Content"
+                  ></input>
+                </td>
+                <td>{new Date().toLocaleDateString()}</td>
+                <td>
+                  <input
+                    type="text"
+                    value={newTask.created_at}
+                    onChange={(e) =>
+                      setNewTask({
+                        ...newTask,
+                        due_at: e.target.value,
+                      })
+                    }
+                    placeholder="Due at: yyyy-mm-dd"
+                  ></input>
+                </td>
+                <td>
+                  <select
+                    name="assignee"
+                    onChange={(e) =>
+                      setNewTask({ ...newTask, assignee: e.target.value })
+                    }
+                  >
+                    {flatmates.map((flatmate) => (
+                      <option key={flatmate.id} value={flatmate.user.username}>
+                        {flatmate.user.username}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                <td>
+                  <select
+                    name="progress"
+                    onChange={(e) =>
+                      setNewTask({ ...newTask, progress: e.target.value })
+                    }
+                  >
+                    <option value="TO DO">To Do</option>
+                    <option value="IN PROGRESS">In Progress</option>
+                    <option value="DONE">Done</option>
+                  </select>
+                </td>
+                <td>
+                  <button onClick={createTask}>✔</button>
+                  <button onClick={() => setIsAdding(false)}>✖</button>
+                </td>
+              </tr>
+            ) : (
+              <tr
+                className="add-task-row"
+                onClick={() => setIsAdding(true)}
+                style={{ cursor: "pointer" }}
+              >
+                <td colSpan="6" style={{ textAlign: "center" }}>
+                  <strong>＋</strong>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </section>
