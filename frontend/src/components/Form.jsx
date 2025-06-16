@@ -5,6 +5,7 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import "../styles/Form.css";
 import LoadingIndicator from "../components/LoadingIndicator";
 import RegisterButton from "./RegisterButton";
+import LoginButton from "./LoginButton";
 
 function Form({ route, method }) {
   const [username, setUsername] = useState("");
@@ -40,7 +41,7 @@ function Form({ route, method }) {
 
   return (
     <div>
-      {name === "Login" && <RegisterButton />}
+      {name === "Login" ? <RegisterButton /> : <LoginButton />}
 
       <form onSubmit={handleSubmit} className="form-container">
         <h1>{name}</h1>

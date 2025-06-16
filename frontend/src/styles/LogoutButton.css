@@ -1,4 +1,4 @@
-button[type="logout"] {
+button {
   background-color: #f3d2e2;
   color: #171214;
   border: none;
@@ -8,6 +8,6 @@ button[type="logout"] {
   padding: 10px 20px;
 }
 
-button[type="logout"]:hover {
+button:hover {
   background-color:#eb9fd8;
 }
