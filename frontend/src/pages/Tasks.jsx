@@ -5,6 +5,7 @@ import LogoutButton from "../components/LogoutButton";
 import "../styles/ContextMenu.css";
 import { FaPersonPraying } from "react-icons/fa6";
 import { TfiHome } from "react-icons/tfi";
+import Navbar from "../components/Navbar";
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -132,6 +133,7 @@ function Tasks() {
 
   return (
     <div>
+      <Navbar />
       <section className="task-header">
         <TfiHome size={24} />
         <header>Welcome home!</header>

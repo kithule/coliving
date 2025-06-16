@@ -1,0 +1,26 @@
+/* Styles for the navigation bar */
+.nav-bar {
+  list-style-type: none;
+  background-color: #f3d2e2;
+  overflow: hidden;
+  border-radius: 50px;
+}
+
+.nav-bar a {
+  float: left;
+  color: #333;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.nav-bar a:hover {
+  background-color: #eb9fd8;
+  color: black;
+}
+
+.nav-bar a.active {
+  background-color: #eb9fd8;
+  color: #333;
+  border-radius: 50px;
+}
