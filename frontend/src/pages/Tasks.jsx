@@ -50,6 +50,9 @@ function Tasks() {
   };
 
   const createTask = () => {
+    if (newTask.assignee) {
+      newTask.assignee = matchUsernameToTenantId(newTask.assignee);
+    }
     if (!newTask.content || !newTask.due_at) {
       alert("Please fill in content and due date.");
     } else {
