@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics, status, views
 from .serializers import (
@@ -164,3 +163,4 @@ class TaskDelete(generics.DestroyAPIView):
 class TaskUpdateView(generics.UpdateAPIView):
     queryset=Task.objects.all()
     serializer_class=TaskSerializer
+

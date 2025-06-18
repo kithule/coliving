@@ -1,4 +1,5 @@
 import react from "react";
+import { useParams } from "react-router-dom";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -7,6 +8,8 @@ import Apartment from "./pages/Apartment";
 import NotFound from "./pages/NotFound";
 import Tasks from "./pages/Tasks";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ChatPage from "./pages/Chat";
+import ChatRoom from "./components/ChatRoom";
 
 function Logout() {
   localStorage.clear();
@@ -42,6 +45,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Tasks />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <ChatRoom />
             </ProtectedRoute>
           }
         />

@@ -1,5 +1,8 @@
 asgiref
+channels
+daphne
 Django
+django-channels
 django-cors-headers
 djangorestframework
 djangorestframework-simplejwt

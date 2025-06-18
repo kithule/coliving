@@ -31,4 +31,7 @@ urlpatterns = [
     path(
         "api/", include("api.urls")
     ),  # if url not found here, take the rest (after api/) and forward to api.urls
+    path(
+        "chat/", include("chat.urls")
+    ),
 ]
