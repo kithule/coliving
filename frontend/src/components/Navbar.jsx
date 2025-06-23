@@ -11,6 +11,9 @@ function Navbar() {
         <NavLink to="/tasks/" end>
           Tasks
         </NavLink>
+        <NavLink to="/chat/" end>
+          Chat
+        </NavLink>
       </li>
     </ul>
   );
