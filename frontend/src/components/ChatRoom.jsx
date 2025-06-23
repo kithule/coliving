@@ -119,6 +119,13 @@ function ChatRoom() {
       </section>
       <p>Roundtable at the world leaders' summit (very important) !</p>
       <div className="chat-wrapper">
+        <div className="window-title-bar">
+          <span>ChatApp.exe</span>
+          <div className="window-buttons">
+            <div className="win-btn">–</div>
+            <div className="win-btn">×</div>
+          </div>
+        </div>
         <div className="chat-box">
           {messages.map((msg, idx) => {
             const isSelf = msg.sender === username;

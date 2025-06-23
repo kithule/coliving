@@ -8,7 +8,6 @@ import Apartment from "./pages/Apartment";
 import NotFound from "./pages/NotFound";
 import Tasks from "./pages/Tasks";
 import ProtectedRoute from "./components/ProtectedRoute";
-import ChatPage from "./pages/Chat";
 import ChatRoom from "./components/ChatRoom";
 
 function Logout() {
