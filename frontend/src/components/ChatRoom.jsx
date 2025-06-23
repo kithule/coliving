@@ -10,12 +10,14 @@ function ChatRoom() {
   const [input, setInput] = useState("");
   const [apartmentId, setApartmentId] = useState("");
   const [username, setUsername] = useState("");
+  const [flatmates, setFlatmates] = useState([]);
   const wsRef = useRef(null); //ref value persistent between renders
   const bottomRef = useRef();
 
   //fetch chat history via api
   useEffect(() => {
     getCurrentTenant();
+    getFlatmates();
     if (!apartmentId) return;
     getMessages();
   }, [apartmentId]);
@@ -40,9 +42,25 @@ function ChatRoom() {
 
   const sendMessage = () => {
     if (input.trim()) {
-      wsRef.current.send(JSON.stringify({ message: input, sender: username }));
+      wsRef.current.send(
+        JSON.stringify({
+          content: input,
+          sender: username,
+          timestamp: Date.now(),
+        })
+      );
       setInput("");
     }
+  };
+
+  const getFlatmates = () => {
+    api
+      .get("api/tenants/")
+      .then((res) => res.data)
+      .then((data) => {
+        setFlatmates(data);
+      })
+      .catch((err) => alert(err));
   };
 
   const getMessages = () => {
@@ -61,9 +79,34 @@ function ChatRoom() {
       .then((res) => res.data)
       .then((data) => {
         setApartmentId(data.apartment.id);
-        setUsername(data.user.username);
+        setUsername(data.id);
       })
       .catch((err) => alert(err));
+  };
+
+  const matchTenantIdToUsername = (id) => {
+    for (let tenant of flatmates) {
+      if (tenant.id === id) {
+        return tenant.user.username;
+      }
+    }
+  };
+
+  const formattedDate = (d) => {
+    var date = new Date(d);
+    return (
+      date.getUTCFullYear() +
+      "/" +
+      ("0" + (date.getUTCMonth() + 1)).slice(-2) +
+      "/" +
+      ("0" + date.getUTCDate()).slice(-2) +
+      " " +
+      ("0" + date.getUTCHours()).slice(-2) +
+      ":" +
+      ("0" + date.getUTCMinutes()).slice(-2) +
+      ":" +
+      ("0" + date.getUTCSeconds()).slice(-2)
+    );
   };
 
   return (
@@ -78,8 +121,7 @@ function ChatRoom() {
       <div className="chat-wrapper">
         <div className="chat-box">
           {messages.map((msg, idx) => {
-            const isSelf =
-              msg.sender === username || msg.sender_username === username;
+            const isSelf = msg.sender === username;
             return (
               <div
                 key={idx}
@@ -87,10 +129,13 @@ function ChatRoom() {
               >
                 {!isSelf && (
                   <div className="chat-sender">
-                    {msg.sender || msg.sender_username}
+                    {matchTenantIdToUsername(msg.sender)}
                   </div>
                 )}
-                <div className="chat-content">{msg.message || msg.content}</div>
+                <div className="chat-content">{msg.content}</div>
+                <div className="chat-timestamp">
+                  {formattedDate(msg.timestamp)}
+                </div>
               </div>
             );
           })}

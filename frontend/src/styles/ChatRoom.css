@@ -24,31 +24,44 @@ header {
 }
 
 .chat-bubble {
-  max-width: 70%;
-  margin: 5px 0;
-  padding: 10px 14px;
-  border-radius: 16px;
-  line-height: 1.4;
-  display: inline-block;
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  max-width: 50%;
+  display:flex;
+  flex-direction: column;
 }
 
 .chat-self {
-  background-color: #d2f8d2;
-  align-self: flex-end;
-  margin-left: auto;
-  border-bottom-right-radius: 0;
-  text-align: right;
+  background-color: #f3d2e2;
+  margin-right:0;
+  margin-left:auto;
 }
 
 .chat-other {
   background-color: #fff;
-  border-bottom-left-radius: 0;
+  margin-right:auto;
+  margin-left:0;
 }
 
 .chat-sender {
   font-weight: bold;
   font-size: 0.85em;
-  margin-bottom: 4px;
+}
+
+.chat-timestamp {
+  color: #aaa;
+  font-size: 0.85em;
+}
+
+.chat-sender,
+.chat-content,
+.chat-timestamp {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
 }
 
 .chat-input-area {
@@ -77,5 +90,8 @@ header {
 .chat-input-area button:hover {
   background-color:#eb9fd8;
 }
+
+
+
 
 
