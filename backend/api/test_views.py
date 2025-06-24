@@ -155,4 +155,8 @@ class ViewsTests(TestCase):
         self.task_1.refresh_from_db()
         self.assertEqual(self.task_1.progress, "IN PROGRESS")
 
+    def test_unauthenticated_user(self):
+        self.client.logout()
+        response=self.client.get("/api/notes/")
+        self.assertEqual(response.status_code,401)
         
