@@ -12,7 +12,7 @@ class Apartment(models.Model):
 class Tenant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     apartment = models.ForeignKey(
-        Apartment, on_delete=models.CASCADE, related_name="tenants"
+        Apartment, on_delete=models.CASCADE, related_name="tenants", null=True, blank=True
     )
 
 
@@ -35,7 +35,7 @@ class Task(models.Model):
     due_at = models.DateTimeField()
     progress = models.CharField(max_length=100, choices=PROGRESS, default="TO DO")
     apartment = models.ForeignKey(
-        Apartment, on_delete=models.CASCADE, related_name="tasks"
+        Apartment, on_delete=models.CASCADE, related_name="tasks", null=True, blank=True
     )
     assignee = models.ForeignKey(
         Tenant, on_delete=models.CASCADE, related_name="tasks", null=True, blank=True

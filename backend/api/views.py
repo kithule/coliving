@@ -15,7 +15,7 @@ from rest_framework.response import Response
 # Create your views here. (imagine all api calls that frontend needs)
 # Need: serializer class, permission classes, query_set
 class NoteListCreate(generics.ListCreateAPIView):
-    # 2 functionalities: get notes and create note
+    # 2 functionalities: get notes b apartment and create note
     serializer_class = NoteSerializer
     permission_classes = [IsAuthenticated]
 
@@ -48,7 +48,7 @@ class GetTenantByIdView(generics.RetrieveAPIView):
     serializer_class = TenantSerializer
     permission_classes = [IsAuthenticated]
 
-
+# get tenant of currently connected user
 class GetTenantView(generics.RetrieveAPIView):
     serializer_class = TenantSerializer
     permission_classes = [IsAuthenticated]
@@ -57,6 +57,7 @@ class GetTenantView(generics.RetrieveAPIView):
         user = self.request.user
         return Tenant.objects.get(user=user)
     
+# get tenants by apartment 
 class GetFlatmatesView(generics.ListAPIView):
     serializer_class=TenantSerializer
     permission_classes=[IsAuthenticated]
@@ -66,13 +67,6 @@ class GetFlatmatesView(generics.ListAPIView):
         tenant=Tenant.objects.get(user=user)
         apartment=tenant.apartment
         return Tenant.objects.filter(apartment=apartment)
-    
-class CreateUserView(generics.CreateAPIView):
-    queryset = (
-        User.objects.all()
-    )  # return all rows in User table, technically we don't need this but best practices
-    serializer_class = UserSerializer
-    permission_classes = [AllowAny]  # anyone can use the view to create new user
 
 
 class CreateTenantView(generics.CreateAPIView):
@@ -81,7 +75,6 @@ class CreateTenantView(generics.CreateAPIView):
 
 
 # for first time users without apartment registered, they have to either create an apartment or join an existing one
-
 
 class CreateApartmentView(generics.CreateAPIView):
     queryset = Apartment.objects.all()
