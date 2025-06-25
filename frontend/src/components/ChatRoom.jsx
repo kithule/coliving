@@ -13,6 +13,8 @@ function ChatRoom() {
   const [flatmates, setFlatmates] = useState([]);
   const wsRef = useRef(null); //ref value persistent between renders
   const bottomRef = useRef();
+  const backendURL= import.meta.env.VITE_BACKEND_URL;
+  const wsURL = backendURL.replace(/^http/, 'ws') + `/ws/chat/${apartmentId}/`;
 
   //fetch chat history via api
   useEffect(() => {
@@ -25,7 +27,7 @@ function ChatRoom() {
   //connect WebSocket
   useEffect(() => {
     if (!apartmentId) return;
-    const socket = new WebSocket(`ws://localhost:8000/ws/chat/${apartmentId}/`);
+    const socket = new WebSocket(wsURL);
     wsRef.current = socket;
 
     socket.onmessage = (e) => {
