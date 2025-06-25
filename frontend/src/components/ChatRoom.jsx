@@ -41,7 +41,11 @@ function ChatRoom() {
   }, [messages]);
 
   const sendMessage = () => {
-    if (input.trim()) {
+    if (
+      input.trim() &&
+      wsRef.current &&
+      wsRef.current.readyState === WebSocket.OPEN
+    ) {
       wsRef.current.send(
         JSON.stringify({
           content: input,
@@ -50,6 +54,8 @@ function ChatRoom() {
         })
       );
       setInput("");
+    } else if (wsRef.current?.readyState !== WebSocket.OPEN) {
+      alert("WebSocket connection not ready. Please try again in a moment.");
     }
   };
 
@@ -68,6 +74,7 @@ function ChatRoom() {
       .get(`/chat/${apartmentId}/`)
       .then((res) => res.data)
       .then((data) => {
+        console.log(data);
         setMessages(data);
       })
       .catch((err) => alert(err));
@@ -78,7 +85,7 @@ function ChatRoom() {
       .get("/api/tenant/")
       .then((res) => res.data)
       .then((data) => {
-        setApartmentId(data.apartment.id);
+        setApartmentId(data.apartment);
         setUsername(data.id);
       })
       .catch((err) => alert(err));
