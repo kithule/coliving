@@ -53,3 +53,11 @@ npm run start
 ```
 This project is still a work in progress — there are features to refine and areas to improve. Feedback is welcome as I continue learning and building!
 ⚠️ Coliving is deployed for free on Render, which may cause some short delays on first load.
+
+![App Screenshot](./assets/notes.png)
+![App Screenshot](./assets/tasks.png)
+![App Screenshot](./assets/chat.png)
+
+
+
+
