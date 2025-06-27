@@ -1,3 +1,5 @@
+This GitHub serves as a beginner-friendly app idea for me to learn Django.
+
 # 🏡 Coliving – A web app built for harmonious shared living (hopefully)
 
 🚀 **Live Demo**: [View the app on Render](https://ihatemyflatmates.onrender.com)  
@@ -6,15 +8,15 @@
 
 ## ✨ Features
 
-### 1. 📝 Anonymous Notes
+### 1. Anonymous Notes
 - Leave anonymous messages for your flatmates.
 - Ideal for expressing concerns (e.g. flatmate blasting techno at 2am) without triggering personal conflicts.
 
-### 2. ✅ Chore Management
+### 2. Chore Management
 - Create and assign household tasks with deadlines, assignees, and status updates.
 
-### 3. 💬 Group Chat
-- Real-time group chat for all flatmates using ## Django websockets ##
+### 3. Group Chat
+- Real-time group chat for all flatmates using **Django websockets**
 
 ---
 
@@ -49,3 +51,5 @@ cd frontend
 npm install
 npm run start
 ```
+This project is still a work in progress — there are features to refine and areas to improve. Feedback is welcome as I continue learning and building!
+⚠️ Coliving is deployed for free on Render, which may cause some short delays on first load.
