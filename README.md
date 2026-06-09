@@ -2,11 +2,12 @@ This GitHub serves as a beginner-friendly app idea for me to learn Django.
 
 # 🏡 Coliving – A web app built for harmonious shared living (hopefully)
 
-🚀 **Live Demo**: [View the app on Render](https://ihatemyflatmates.onrender.com)  
+🚀 **Live Demo**: [View the app on Render](https://ihatemyflatmates.onrender.com) 
+(This project was deployed on Render's free tier. Because it hasn't been updated in a while, the live deployment might be offline or sleeping. See below for screenshots of the app.)
 
 ---
 
-## ✨ Features
+## Features
 
 ### 1. Anonymous Notes
 - Leave anonymous messages for your flatmates.
@@ -20,7 +21,7 @@ This GitHub serves as a beginner-friendly app idea for me to learn Django.
 
 ---
 
-## 🧠 Tech Stack
+## Tech Stack
 
 | Purpose       | Tech                           |
 |----------------|--------------------------------|
@@ -52,7 +53,6 @@ npm install
 npm run start
 ```
 This project is still a work in progress — there are features to refine and areas to improve. Feedback is welcome as I continue learning and building!
-⚠️ Coliving is deployed for free on Render, which may cause some short delays on first load.
 
 ![App Screenshot](./assets/notes.png)
 ![App Screenshot](./assets/tasks.png)
